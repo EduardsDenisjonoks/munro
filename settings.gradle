@@ -1,2 +1,3 @@
 rootProject.name = "Munros"
 include ':app'
+include ':munrolibrary'
