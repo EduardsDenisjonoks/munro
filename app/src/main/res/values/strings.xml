@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Munros</string>
+
+    <string name="label_height_meters">Height (m):</string>
+    <string name="label_category">Category:</string>
+    <string name="label_grid_ref">Grid Ref:</string>
+
+    <string name="dialog_title_error">Error</string>
+
+    <string name="btn_ok">OK</string>
 </resources>

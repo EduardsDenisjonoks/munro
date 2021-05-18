@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Munro(
-    val name: String?,
-    val heightInMeters: Long?,
+    val name: String,
+    val heightInMeters: Double,
     val category: String?,
-    val gridRef: String?
+    val gridRef: String
 ) : Parcelable

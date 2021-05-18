@@ -13,6 +13,7 @@ class MunroRepository {
 
     //Raw data extracted from CSV
     private val dataList = ArrayList<Munro>()
+
     //Flag indicating if data has been successfully loaded
     private var isDataLoaded = false
 
@@ -39,9 +40,9 @@ class MunroRepository {
      * @return CsvReadResult.Success if lines where successfully converted to data or
      * CsvReadResult.Error with errorMessage indicating that went wrong
      */
-    suspend fun readCsvInputStream(inputStream: InputStream?) : CsvReadResult<Boolean> {
+    suspend fun readCsvInputStream(inputStream: InputStream?): CsvReadResult<Boolean> {
         return withContext(Dispatchers.IO) {
-            var bufferReader : BufferedReader? = null
+            var bufferReader: BufferedReader? = null
             try {
                 if (inputStream == null) {
                     return@withContext CsvReadResult.error("Null input stream was provided")
@@ -53,7 +54,7 @@ class MunroRepository {
             } finally {
                 try {
                     bufferReader?.close()
-                } catch (ex: IOException){
+                } catch (ex: IOException) {
                     Log.e(TAG, "Unable to close buffer reader", ex)
                 }
             }
@@ -93,7 +94,7 @@ class MunroRepository {
      * @return CsvReadResult.Success if lines where successfully converted to data or
      * CsvReadResult.Error with errorMessage indicating that went wrong
      */
-    private fun convertStringListToData(lines: List<String>) :  CsvReadResult<Boolean>{
+    private fun convertStringListToData(lines: List<String>): CsvReadResult<Boolean> {
         try {
             if (lines.isEmpty()) {
                 return CsvReadResult.error("Empty input stream was provided")
@@ -105,39 +106,53 @@ class MunroRepository {
             var gridRefColumnIndex: Int = -1
 
             dataList.clear() //Clear old data
+            Log.d(TAG, "Starting convert")
 
             lines.forEachIndexed { index, line ->
                 if (index == 0) {
                     val columns = line.split(",")
-                    nameColumnIndex = columns.indexOf(MUNRO_COLUMN_NAME)
+                    nameColumnIndex =
+                        columns.indexOf(MUNRO_COLUMN_NAME) + 1 //todo think about fixing slit
                     if (nameColumnIndex == -1) {
                         return CsvReadResult.error("Column '$MUNRO_COLUMN_GRID_REF' is missing")
                     }
-                    heightInMetersColumnIndex = columns.indexOf(MUNRO_COLUMN_HEIGHT_M)
+                    heightInMetersColumnIndex = columns.indexOf(MUNRO_COLUMN_HEIGHT_M) + 1
                     if (heightInMetersColumnIndex == -1) {
                         return CsvReadResult.error("Column '$MUNRO_COLUMN_GRID_REF' is missing")
                     }
-                    categoryColumnIndex = columns.indexOf(MUNRO_COLUMN_CATEGORY)
+                    categoryColumnIndex = columns.indexOf(MUNRO_COLUMN_CATEGORY) + 1
                     if (categoryColumnIndex == -1) {
                         return CsvReadResult.error("Column '$MUNRO_COLUMN_GRID_REF' is missing")
                     }
-                    gridRefColumnIndex = columns.indexOf(MUNRO_COLUMN_GRID_REF)
+                    gridRefColumnIndex = columns.indexOf(MUNRO_COLUMN_GRID_REF) + 1
                     if (gridRefColumnIndex == -1) {
                         return CsvReadResult.error("Column '$MUNRO_COLUMN_GRID_REF' is missing")
                     }
                 } else {
+                    //todo improve
                     val columns = line.split(",")
-                    dataList.add(
-                        Munro(
-                            name = columns[nameColumnIndex],
-                            heightInMeters = columns[heightInMetersColumnIndex].toLong(),
-                            category = columns[categoryColumnIndex],
-                            gridRef = columns[gridRefColumnIndex]
+                    val name = columns[nameColumnIndex]
+                    val heightInMetersString = columns[heightInMetersColumnIndex]
+                    val category = columns[categoryColumnIndex]
+                    val gridRef = columns[gridRefColumnIndex]
+
+                    if (name.isNotBlank() &&
+                        heightInMetersString.isNotBlank() &&
+                        category.isNotBlank() &&
+                        gridRef.isNotBlank()) {
+                        dataList.add(
+                            Munro(
+                                name,
+                                heightInMetersString.toDouble(),
+                                category,
+                                gridRef
+                            )
                         )
-                    )
+                    }
                 }
             }
 
+            Log.d(TAG, "Ended convert")
             isDataLoaded = true
             return CsvReadResult.success(true)
         } catch (ex: Exception) {
