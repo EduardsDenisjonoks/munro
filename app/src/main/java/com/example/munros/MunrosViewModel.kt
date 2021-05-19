@@ -45,8 +45,11 @@ class MunrosViewModel @Inject constructor() : ViewModel() {
                     setMunros(
                         munroRepository.getMunros(
                             categoryFilter = MunroCategories.NONE,
+                            minHeight = 1000.0,
+                            maxHeight = 1001.0,
                             heightSortOption = MunroSortOptions.ASC,
-                            nameSortOptions = MunroSortOptions.ASC
+                            nameSortOptions = MunroSortOptions.ASC,
+                            limitItemNumber = 200
                         )
                     )
                 }

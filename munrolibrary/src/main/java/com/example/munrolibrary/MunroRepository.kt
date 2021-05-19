@@ -25,44 +25,103 @@ class MunroRepository {
 
     fun getMunros(
         @MunroCategories categoryFilter: String = MunroCategories.NONE,
+        minHeight: Double? = null,
+        maxHeight: Double? = null,
         @MunroSortOptions heightSortOption: String = MunroSortOptions.ASC,
-        @MunroSortOptions nameSortOptions: String = MunroSortOptions.ASC
+        @MunroSortOptions nameSortOptions: String = MunroSortOptions.ASC,
+        limitItemNumber: Int? = -1
     ): List<Munro> {
-        val list = when (categoryFilter) {
+        return dataList.filterByCategory(categoryFilter)
+            .filterByHeightRange(minHeight, maxHeight)
+            .sortByHeightAndName(heightSortOption, nameSortOptions)
+            .limitItems(limitItemNumber)
+    }
+
+    private fun List<Munro>.filterByCategory(@MunroCategories filter: String = MunroCategories.NONE): List<Munro> {
+        return when (filter) {
             MunroCategories.MUNRO -> {
-                dataList.filter { munro -> munro.category == categoryFilter }
+                this.filter { munro -> munro.category == filter }
             }
             MunroCategories.MUNRO_TOP -> {
-                dataList.filter { munro -> munro.category == categoryFilter }
+                this.filter { munro -> munro.category == filter }
             }
             MunroCategories.NONE -> {
-                dataList.filter { munro -> munro.category.isNotBlank() }
+                this.filter { munro -> munro.category.isNotBlank() }
             }
             else -> {
-                Log.e(TAG, "Invalid category filter $categoryFilter")
-                dataList
-            }
-        }
-
-        return when {
-            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.ASC -> {
-                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
-            }
-            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.DESC -> {
-                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenByDescending { it.name })
-            }
-            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.ASC -> {
-                list.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenBy { it.name })
-            }
-            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.DESC -> {
-                list.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenByDescending { it.name })
-            }
-            else -> {
-                Log.e(TAG, "Invalid sort options -> height: $heightSortOption, name: $nameSortOptions")
-                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
+                Log.e(TAG, "Invalid munro category filter $filter")
+                this
             }
         }
     }
+
+    private fun List<Munro>.filterByHeightRange(
+        minHeight: Double? = null,
+        maxHeight: Double? = null
+    ): List<Munro> {
+        //todo check that max is bigger than min
+        val filteredByMin = when (minHeight) {
+            null -> {
+                this
+            }
+            else -> {
+                this.filter { munro -> munro.heightInMeters >= minHeight }
+            }
+        }
+        return when (maxHeight) {
+            null -> {
+                filteredByMin
+            }
+            else -> {
+                filteredByMin.filter { munro -> munro.heightInMeters <= maxHeight }
+            }
+        }
+    }
+
+    private fun List<Munro>.sortByHeightAndName(
+        @MunroSortOptions heightSortOption: String = MunroSortOptions.ASC,
+        @MunroSortOptions nameSortOptions: String = MunroSortOptions.ASC
+    ): List<Munro> {
+        return when {
+            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.ASC -> {
+                this.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.DESC -> {
+                this.sortedWith(compareBy<Munro> { it.heightInMeters }.thenByDescending { it.name })
+            }
+            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.ASC -> {
+                this.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.DESC -> {
+                this.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenByDescending { it.name })
+            }
+            else -> {
+                Log.e(
+                    TAG,
+                    "Invalid sort options -> height: $heightSortOption, name: $nameSortOptions"
+                )
+                this.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+        }
+    }
+
+    private fun List<Munro>.limitItems(limit: Int? = -1): List<Munro> {
+        return when {
+            limit == null -> {
+                this
+            }
+            limit == -1 -> {
+                this
+            }
+            limit >= this.size -> {
+                this
+            }
+            else -> {
+                this.subList(0, limit)
+            }
+        }
+    }
+
 
     /**
      * Clears all data and resets all flags
