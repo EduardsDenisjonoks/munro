@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MunrosFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
+        <variable
+            name="munrosViewModel"
+            type="com.example.munros.MunrosViewModel" />
+    </data>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/space_8"
-            android:paddingBottom="@dimen/space_8"
-            android:paddingStart="@dimen/space_16"
-            android:paddingEnd="@dimen/space_16"
-            tools:listitem="@layout/list_item_munro"/>
+   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+       android:id="@+id/refresh_layout_view"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:enabled="false"
+       app:refreshing="@{munrosViewModel.isLoadingLiveData}">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/list_view"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:scrollbars="none"
+               android:clipToPadding="false"
+               android:paddingTop="@dimen/space_8"
+               android:paddingBottom="@dimen/space_8"
+               android:paddingStart="@dimen/space_16"
+               android:paddingEnd="@dimen/space_16"
+               tools:listitem="@layout/list_item_munro"/>
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

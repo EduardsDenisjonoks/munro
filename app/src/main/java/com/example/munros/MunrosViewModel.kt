@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MunrosViewModel @Inject constructor() : ViewModel() {
 
-    private val munroRepository = MunroRepository()
+    private val munroRepository = MunroRepository()//todo inject this
     private val munrosLiveData = MutableLiveData<List<Munro>>(emptyList())
     private val errorLiveData = SingleLiveEvent<String>()
 

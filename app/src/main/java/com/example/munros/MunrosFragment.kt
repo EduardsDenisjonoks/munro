@@ -29,6 +29,7 @@ class MunrosFragment : Fragment() {
             false
         )
 
+        initDataBinding(binding)
         initListView(binding.listView)
         loadData()
 
@@ -38,6 +39,11 @@ class MunrosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initObservers()
+    }
+
+    private fun initDataBinding(binding: MunrosFragmentBinding){
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.munrosViewModel = viewModel
     }
 
     private fun initListView(listView: RecyclerView){
