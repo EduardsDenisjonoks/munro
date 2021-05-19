@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.munrolibrary.CsvReadResult
-import com.example.munrolibrary.Munro
-import com.example.munrolibrary.MunroRepository
+import com.example.munrolibrary.*
 import com.example.munros.custom.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +22,8 @@ class MunrosViewModel @Inject constructor() : ViewModel() {
     val isLoadingLiveData = MutableLiveData(false)
 
 
-    fun getMunrosLiveData() : LiveData<List<Munro>> = munrosLiveData
-    fun getErrorLiveData() : LiveData<String> = errorLiveData
+    fun getMunrosLiveData(): LiveData<List<Munro>> = munrosLiveData
+    fun getErrorLiveData(): LiveData<String> = errorLiveData
 
     private fun setLoadingState(isLoading: Boolean) {
         isLoadingLiveData.postValue(isLoading)
@@ -42,9 +40,15 @@ class MunrosViewModel @Inject constructor() : ViewModel() {
     fun loadCsvFromInputStream(inputStream: InputStream) {
         viewModelScope.launch(Dispatchers.IO) {
             setLoadingState(true)
-            when(val result = munroRepository.readCsvInputStream(inputStream)){
+            when (val result = munroRepository.readCsvInputStream(inputStream)) {
                 is CsvReadResult.Success -> {
-                    setMunros(munroRepository.getFullMunroData())//todo apply filters
+                    setMunros(
+                        munroRepository.getMunros(
+                            categoryFilter = MunroCategories.NONE,
+                            heightSortOption = MunroSortOptions.ASC,
+                            nameSortOptions = MunroSortOptions.ASC
+                        )
+                    )
                 }
                 is CsvReadResult.Error -> {
                     setError(result.errorMessage)

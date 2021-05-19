@@ -23,6 +23,47 @@ class MunroRepository {
      */
     fun getFullMunroData(): List<Munro> = dataList
 
+    fun getMunros(
+        @MunroCategories categoryFilter: String = MunroCategories.NONE,
+        @MunroSortOptions heightSortOption: String = MunroSortOptions.ASC,
+        @MunroSortOptions nameSortOptions: String = MunroSortOptions.ASC
+    ): List<Munro> {
+        val list = when (categoryFilter) {
+            MunroCategories.MUNRO -> {
+                dataList.filter { munro -> munro.category == categoryFilter }
+            }
+            MunroCategories.MUNRO_TOP -> {
+                dataList.filter { munro -> munro.category == categoryFilter }
+            }
+            MunroCategories.NONE -> {
+                dataList.filter { munro -> munro.category.isNotBlank() }
+            }
+            else -> {
+                Log.e(TAG, "Invalid category filter $categoryFilter")
+                dataList
+            }
+        }
+
+        return when {
+            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.ASC -> {
+                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+            heightSortOption == MunroSortOptions.ASC && nameSortOptions == MunroSortOptions.DESC -> {
+                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenByDescending { it.name })
+            }
+            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.ASC -> {
+                list.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+            heightSortOption == MunroSortOptions.DESC && nameSortOptions == MunroSortOptions.DESC -> {
+                list.sortedWith(compareByDescending<Munro> { it.heightInMeters }.thenByDescending { it.name })
+            }
+            else -> {
+                Log.e(TAG, "Invalid sort options -> height: $heightSortOption, name: $nameSortOptions")
+                list.sortedWith(compareBy<Munro> { it.heightInMeters }.thenBy { it.name })
+            }
+        }
+    }
+
     /**
      * Clears all data and resets all flags
      */
@@ -167,9 +208,9 @@ class MunroRepository {
         gridRef: String
     ): CsvReadResult<Boolean> {
         try {
-            if (name.isBlank() &&
-                height.isBlank() &&
-                category.isBlank() &&
+            if (name.isBlank() ||
+                height.isBlank() ||
+                category.isBlank() ||
                 gridRef.isBlank()
             ) {
                 Log.e(
