@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.munros.adapters.MunroAdapter
 import com.example.munros.databinding.MunrosFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MunrosFragment : Fragment() {
 
     private val viewModel: MunrosViewModel by viewModels()

@@ -9,7 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.munros.databinding.FilterSettingsFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FilterSettingsFragment : Fragment() {
 
     private val viewModel: FilterSettingsViewModel by viewModels()
@@ -31,15 +33,45 @@ class FilterSettingsFragment : Fragment() {
         return binding.root
     }
 
-    private fun initDataBinding(binding: FilterSettingsFragmentBinding){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initObservers()
+    }
+
+    private fun initDataBinding(binding: FilterSettingsFragmentBinding) {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.filterVm = viewModel
     }
 
-    private fun initApplyButton(button: View){
+    private fun initApplyButton(button: View) {
         button.setOnClickListener {
-            //todo apply changes
-            findNavController().popBackStack()
+            viewModel.applyChanges {
+               findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.getCachedCategoryLiveData().observe(viewLifecycleOwner) { category ->
+            viewModel.setCategory(category)
+        }
+        viewModel.getCachedMinHeightLiveData().observe(viewLifecycleOwner) { height ->
+            viewModel.setMinHeight(height)
+        }
+        viewModel.getCachedMaxHeightLiveData().observe(viewLifecycleOwner) { height ->
+            viewModel.setMaxHeight(height)
+        }
+        viewModel.getCachedItemLimitLiveData().observe(viewLifecycleOwner) { limit ->
+            viewModel.setItemLimit(limit)
+        }
+        viewModel.getCachedMaxHeightLiveData().observe(viewLifecycleOwner) { height ->
+            viewModel.setMaxHeight(height)
+        }
+        viewModel.getCachedHeightSortOptionLiveData().observe(viewLifecycleOwner) { option ->
+            viewModel.setHeightSortOption(option)
+        }
+        viewModel.getCachedNameSortOptionLiveData().observe(viewLifecycleOwner) { option ->
+            viewModel.setNameSortOption(option)
         }
     }
 }
