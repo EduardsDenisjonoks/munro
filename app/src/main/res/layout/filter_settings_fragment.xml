@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".FilterSettingsFragment">
+
+    <data>
+
+        <variable
+            name="filterVm"
+            type="com.example.munros.FilterSettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_filter_section"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/section_filters"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_category"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_category"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_filter_section" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_category_filters"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_category"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_none"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.categoryNoneCheckedLiveData}"
+                android:text="@string/filter_option_none" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_mun"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.categoryMunCheckedLiveData}"
+                android:text="@string/filter_option_mun" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_top"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.categoryTopCheckedLiveData}"
+                android:text="@string/filter_option_top" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_min_height"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_min_height"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/et_min_height"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_min_height"
+            android:layout_width="@dimen/input_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="@={filterVm.minHeightLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cg_category_filters"
+            tools:text="1234" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_max_height"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_min_height"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/et_max_height"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_max_height"
+            android:layout_width="@dimen/input_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="@={filterVm.maxHeightLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_min_height"
+            tools:text="1234" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_item_limit"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_item_limit"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/et_item_limit"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_item_limit"
+            android:layout_width="@dimen/input_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:text="@={filterVm.itemLimitLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_max_height"
+            tools:text="1234" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_sort_section"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/section_sort_options"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_item_limit" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_sort_by_height"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_sort_by_height"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort_section" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_height_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_sort_by_height"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_height_sort_asc"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.heightSortAscCheckedLiveData}"
+                android:text="@string/sort_option_asc" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_height_sort_desc"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.heightSortDescCheckedLiveData}"
+                android:text="@string/sort_option_desc" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_sort_by_name"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/label_sort_by_name"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cg_height_sort" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_name_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_sort_by_name"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_name_sort_asc"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.nameSortAscCheckedLiveData}"
+                android:text="@string/sort_option_asc" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_name_sort_desc"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={filterVm.nameSortDescCheckedLiveData}"
+                android:text="@string/sort_option_desc" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16"
+            android:text="@string/btn_apply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cg_name_sort" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

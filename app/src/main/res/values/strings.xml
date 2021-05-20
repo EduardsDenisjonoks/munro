@@ -4,16 +4,32 @@
     <string name="label_height_meters">Height (m):</string>
     <string name="label_category">Category:</string>
     <string name="label_grid_ref">Grid Ref:</string>
+    <string name="label_min_height">Min height:</string>
+    <string name="label_max_height">Max height:</string>
+    <string name="label_item_limit">Max number of items:</string>
+    <string name="label_sort_by_height">Sort by height:</string>
+    <string name="label_sort_by_name">Sort by name:</string>
+
+    <string name="section_filters">Filters</string>
+    <string name="section_sort_options">Sort options</string>
 
     <string name="dialog_title_error">Error</string>
 
     <string name="btn_ok">OK</string>
     <string name="btn_load_data">Load data</string>
+    <string name="btn_apply">Apply</string>
 
     <string name="cd_filter">Button which will take you to the screen with filter and sort options</string>
 
     <string name="message_data_not_loaded">Press load data button to load CSV file from assets and start exploring data.\n\nIn case if you want change data: put new CSV file into assets folder and in \'MunrosFragment\' update file name in \'loadData()\' function</string>
 
     <string name="empty_state">There are no matching data, try changing you filter options</string>
+
+    <string name="sort_option_asc">ASC</string>
+    <string name="sort_option_desc">DESC</string>
+
+    <string name="filter_option_mun">MUN</string>
+    <string name="filter_option_top">TOP</string>
+    <string name="filter_option_none">NONE</string>
 
 </resources>

@@ -9,4 +9,6 @@
 
     <dimen name="rounded_corner">8dp</dimen>
     <dimen name="card_elevation">4dp</dimen>
+
+    <dimen name="input_width">50dp</dimen>
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.munros.adapters.MunroAdapter
@@ -60,7 +61,7 @@ class MunrosFragment : Fragment() {
 
     private fun initFilterDataButton(button: View){
         button.setOnClickListener {
-            //todo navigate to filter options
+            findNavController().navigate(R.id.action_munros_to_filter_settings)
         }
     }
 

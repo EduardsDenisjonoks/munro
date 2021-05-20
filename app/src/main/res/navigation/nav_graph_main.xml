@@ -9,5 +9,18 @@
         android:id="@+id/nav_fragment_munros"
         android:name="com.example.munros.MunrosFragment"
         android:label="munros_fragment"
-        tools:layout="@layout/munros_fragment" />
+        tools:layout="@layout/munros_fragment" >
+        <action
+            android:id="@+id/action_munros_to_filter_settings"
+            app:destination="@id/nav_fragment_filter_settings"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_fragment_filter_settings"
+        android:name="com.example.munros.FilterSettingsFragment"
+        android:label="filter_settings_fragment"
+        tools:layout="@layout/filter_settings_fragment" />
 </navigation>
