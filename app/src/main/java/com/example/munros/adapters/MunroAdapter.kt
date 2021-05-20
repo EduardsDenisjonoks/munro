@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.munrolibrary.Munro
+import com.example.munrolibrary.data.Munro
 import com.example.munros.R
 import com.example.munros.databinding.ListItemMunroBinding
 

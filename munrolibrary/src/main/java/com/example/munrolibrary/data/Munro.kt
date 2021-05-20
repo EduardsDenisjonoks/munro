@@ -1,4 +1,4 @@
-package com.example.munrolibrary
+package com.example.munrolibrary.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
