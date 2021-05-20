@@ -21,6 +21,11 @@ class MunroRepository {
     private var isDataLoaded = false
 
     /**
+     * Get flag indicating if data was loaded or no
+     */
+    fun isDataLoaded() = isDataLoaded
+
+    /**
      * Get raw data (no sorting or filtering is applied)
      * @return List of Munro objects
      */

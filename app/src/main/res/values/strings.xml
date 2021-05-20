@@ -8,4 +8,12 @@
     <string name="dialog_title_error">Error</string>
 
     <string name="btn_ok">OK</string>
+    <string name="btn_load_data">Load data</string>
+
+    <string name="cd_filter">Button which will take you to the screen with filter and sort options</string>
+
+    <string name="message_data_not_loaded">Press load data button to load CSV file from assets and start exploring data.\n\nIn case if you want change data: put new CSV file into assets folder and in \'MunrosFragment\' update file name in \'loadData()\' function</string>
+
+    <string name="empty_state">There are no matching data, try changing you filter options</string>
+
 </resources>

@@ -1,40 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MunrosFragment">
 
     <data>
+
         <variable
             name="munrosViewModel"
             type="com.example.munros.MunrosViewModel" />
     </data>
 
-   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-       android:id="@+id/refresh_layout_view"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:enabled="false"
-       app:refreshing="@{munrosViewModel.isLoadingLiveData}">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:enabled="false"
+        app:refreshing="@{munrosViewModel.isLoadingLiveData}">
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-           <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/list_view"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:scrollbars="none"
-               android:clipToPadding="false"
-               android:paddingTop="@dimen/space_8"
-               android:paddingBottom="@dimen/space_8"
-               android:paddingStart="@dimen/space_16"
-               android:paddingEnd="@dimen/space_16"
-               tools:listitem="@layout/list_item_munro"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/space_16"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/space_16"
+                android:paddingBottom="@dimen/space_8"
+                android:scrollbars="none"
+                tools:itemCount="2"
+                tools:listitem="@layout/list_item_munro" />
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_filter_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_24"
+                android:contentDescription="@string/cd_filter"
+                android:src="@drawable/ic_filter"
+                app:fabSize="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:visible_or_gone="@{munrosViewModel.filterOptionVisibilityLiveData}" />
 
-   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_data_not_loaded"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                android:text="@string/message_data_not_loaded"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/btn_load_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:visible_or_gone="@{munrosViewModel.dataNotLoadedVisibilityLiveData}" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_load_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                android:enabled="@{munrosViewModel.actionEnabledLiveData}"
+                android:text="@string/btn_load_data"
+                app:icon="@drawable/ic_filter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_data_not_loaded"
+                app:visible_or_gone="@{munrosViewModel.dataNotLoadedVisibilityLiveData}" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_empty_state"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_16"
+                android:text="@string/empty_state"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:visible_or_gone="@{munrosViewModel.emptyStateVisibilityLiveData}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

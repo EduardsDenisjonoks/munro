@@ -31,7 +31,8 @@ class MunrosFragment : Fragment() {
 
         initDataBinding(binding)
         initListView(binding.listView)
-        loadData()
+        initLoadDataButton(binding.btnLoadData)
+        initFilterDataButton(binding.fabFilterData)
 
         return binding.root
     }
@@ -51,9 +52,18 @@ class MunrosFragment : Fragment() {
         listView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun loadData() {
-        viewModel.loadCsvFromInputStream(requireContext().assets.open("munrotab_v6.2.csv"))
+    private fun initLoadDataButton(button: View){
+        button.setOnClickListener {
+            loadData()
+        }
     }
+
+    private fun initFilterDataButton(button: View){
+        button.setOnClickListener {
+            //todo navigate to filter options
+        }
+    }
+
 
     private fun initObservers() {
         viewModel.getMunrosLiveData().observe(viewLifecycleOwner) { munros ->
@@ -62,6 +72,10 @@ class MunrosFragment : Fragment() {
         viewModel.getErrorLiveData().observe(viewLifecycleOwner) { errorMessage ->
             showErrorDialog(errorMessage)
         }
+    }
+
+    private fun loadData() {
+        viewModel.loadCsvFromInputStream(requireContext().assets.open("munrotab_v6.2.csv"))
     }
 
     private fun showErrorDialog(errorMessage: String) {
